@@ -2,8 +2,11 @@
 ; (setq inhibit-startup-message t)
 
 (require 'package)
-(add-to-list 'package-archives
-	     '("melpa" . "https://melpa.org/packages/"))
+(setq
+ package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                    ("melpa" . "http://melpa.milkbox.net/packages/")
+                    ("melpa-stable" . "http://stable.melpa.org/packages/")))
+
 (package-initialize)
 
 (when (version<= "26.0.50" emacs-version)
