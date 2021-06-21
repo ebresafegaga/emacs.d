@@ -27,3 +27,20 @@
 (require 'idris2-mode)
 
 (set-face-attribute 'default nil :height 150)
+
+;; ocaml stuff
+(setq merlin-use-auto-complete-mode t)
+(setq merlin-ac-setup t)
+;; ## added by OPAM user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
+(require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
+;; ## end of OPAM user-setup addition for emacs / base ## keep this line
+
+(face-spec-set
+ 'tuareg-font-lock-constructor-face
+ '((((class color) (background light)) (:foreground "DarkSlateGray"))
+   (((class color) (background dark)) (:foreground "burlywood1"))))
+
+(face-spec-set
+ 'tuareg-font-lock-module-face
+ '((((class color) (background light)) (:foreground "brown4"))
+   (((class color) (background dark)) (:foreground "burlywood1"))))
