@@ -1,15 +1,13 @@
 
+(require 'package)
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+			 ("melpa" . "https://melpa.org/packages/")
+			 ;; don't really see the need for melpa-stable
+			 ("melpa-stable" . "http://stable.melpa.org/packages/")))
+(package-initialize)
 
 (setq inhibit-startup-message t
       inhibit-startup-echo-message t)
-
-(require 'package)
-(setq
- package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-		    ("melpa" . "https://melpa.org/packages/")
-		    ;; don't really see the need for melpa-stable
-                    ("melpa-stable" . "http://stable.melpa.org/packages/")))
-(package-initialize)
 
 ; recent files 
 (require 'recentf)
@@ -32,6 +30,13 @@
 ;(setq recentf-max-menu-items 25)
 ;(setq recentf-max-saved-items 25)
 ;(global-set-key "\C-x\ \C-r" 'recentf-open-files)
+
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (toggle-read-only)
+  (ansi-color-apply-on-region compilation-filter-start (point))
+  (toggle-read-only))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
@@ -59,6 +64,9 @@
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
+(column-number-mode 1)
+; (show-paren-mode 1)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
