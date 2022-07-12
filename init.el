@@ -2,6 +2,10 @@
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
 			 ("melpa" . "https://melpa.org/packages/")))
 (package-initialize)
+;; ocaml tuareg mode
+;; ocaml merlin mode
+;; org mode
+;; racket mode
 
 (setq inhibit-startup-message t
       inhibit-startup-echo-message t)
