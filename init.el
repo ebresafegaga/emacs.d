@@ -1,20 +1,27 @@
-
 (require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-			 ("melpa" . "https://melpa.org/packages/")
-			 ;; don't really see the need for melpa-stable
-			 ("melpa-stable" . "http://stable.melpa.org/packages/")))
+			 ("melpa" . "https://melpa.org/packages/")))
 (package-initialize)
 
 (setq inhibit-startup-message t
       inhibit-startup-echo-message t)
 
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+
+(setq next-line-add-newlines t)
+;; (global-hl-line-mode 1)
+;; (doom-modeline-mode -1)
+
+;; (set-frame-font 18)
+
 ; recent files 
-(require 'recentf)
-(global-set-key (kbd "C-x C-r") 'ido-recentf-open)
+;(require 'recentf)
+; (global-set-key (kbd "C-x C-r") 'ido-recentf-open)
 
 ;; enable recent files mode.
-(recentf-mode t)
+;; (recentf-mode t)
 
 ; 50 files ought to be enough.
 (setq recentf-max-saved-items 50)
@@ -42,11 +49,11 @@
 (setq ido-everywhere t)
 (ido-mode 1)
 
-(require 'haskell-interactive-mode)
-(require 'haskell-process)
-(add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+;;(require 'haskell-interactive-mode)
+;;(require 'haskell-process)
+;;(add-hook 'haskell-mode-hook 'interactive-haskell-mode)
 
-(add-hook 'after-init-hook 'global-company-mode)
+;; (add-hook 'after-init-hook 'global-company-mode)
 
 ;; racket-mode
 (require 'racket-xp)
@@ -58,8 +65,16 @@
 ;(require 'doom-modeline)
 ;(doom-modeline-mode 1)
 
+
 (when (version<= "26.0.50" emacs-version)
   (global-display-line-numbers-mode))
+
+;; relative line numbers
+(setq display-line-numbers 'relative)
+
+;; need to highlight this thing
+;; (nlinum-mode 1)
+;; (setq nlinum-highlight-current-line t)
 
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
@@ -76,44 +91,27 @@
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
- '(custom-enabled-themes (quote (deeper-blue)))
- '(idris2-interpreter-path "/home/gaga/.idris2/bin/idris2")
+ '(custom-enabled-themes '(gruber-darker))
+ '(custom-safe-themes
+   '("7923541211298e4fd1db76c388b1d2cb10f6a5c853c3da9b9c46a02b7f78c882" default))
  '(package-selected-packages
-   (quote
-    (racket-mode dune dune-format company org magit doom-modeline auto-complete haskell-mode))))
+   '(nlinum doom-modeline org markdown-mode magit gruber-darker-theme smex merlin tuareg)))
 
-(add-to-list 'load-path "~/.emacs.d/idris2-mode/")
-(require 'idris2-mode)
+;;(add-to-list 'load-path "~/.emacs.d/idris2-mode/")
+;;(require 'idris2-mode)
 
-(set-face-attribute 'default nil :height 150)
+(set-face-attribute 'default nil :height 150 :family "Ubuntu Mono")
+
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+;; (setq-default frame-title-format '("%f")) 
 
 ;; ocaml stuff
 (setq merlin-use-auto-complete-mode t)
 (setq merlin-ac-setup t)
-;; ## added by OPAM user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
-
-;; opam install opam-user-setup
-(require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
-;; ## end of OPAM user-setup addition for emacs / base ## keep this line
-
-;; OCaml font locking
-(face-spec-set
- 'tuareg-font-lock-constructor-face
- '((((class color) (background light)) (:foreground "DarkSlateGray"))
-   (((class color) (background dark)) (:foreground "cyan4"))))
-
-(face-spec-set
- 'tuareg-font-lock-module-face
- '((((class color) (background light)) (:foreground "brown4"))
-   (((class color) (background dark)) (:foreground "khaki4"))))
+(add-hook 'tuareg-mode-hook #'merlin-mode)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-
-;; C-c C-l for lower case
-;; C-c C-u for upper case
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
