@@ -14,6 +14,8 @@
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
+;; (rectangle-mark-mode 1)
+
 (setq next-line-add-newlines t)
 ;; (global-hl-line-mode 1)
 ;; (doom-modeline-mode -1)
@@ -27,7 +29,6 @@
 ;; enable recent files mode.
 ;; (recentf-mode t)
 
-; 50 files ought to be enough.
 (setq recentf-max-saved-items 50)
 
 (defun ido-recentf-open ()
@@ -37,10 +38,8 @@
       (message "Opening file...")
     (message "Aborting")))
 
-;(recentf-mode 1)
-;(setq recentf-max-menu-items 25)
-;(setq recentf-max-saved-items 25)
-;(global-set-key "\C-x\ \C-r" 'recentf-open-files)
+(recentf-mode 1)
+(global-set-key (kbd "C-x C-r") 'ido-recentf-open)
 
 (require 'ansi-color)
 (defun colorize-compilation-buffer ()
@@ -53,28 +52,13 @@
 (setq ido-everywhere t)
 (ido-mode 1)
 
-;;(require 'haskell-interactive-mode)
-;;(require 'haskell-process)
-;;(add-hook 'haskell-mode-hook 'interactive-haskell-mode)
-
 ;; (add-hook 'after-init-hook 'global-company-mode)
-
-;; racket-mode
-(require 'racket-xp)
-(add-hook 'racket-mode-hook #'racket-xp-mode)
-
-;(set-default-font "DejaVu Sans Mono")
-; (set-default-font "Ubuntu Mono-18")
-
-;(require 'doom-modeline)
-;(doom-modeline-mode 1)
-
 
 (when (version<= "26.0.50" emacs-version)
   (global-display-line-numbers-mode))
 
 ;; relative line numbers
-(setq display-line-numbers 'relative)
+(setq display-line-numbers-type 'relative)
 
 ;; need to highlight this thing
 ;; (nlinum-mode 1)
@@ -99,20 +83,50 @@
  '(custom-safe-themes
    '("7923541211298e4fd1db76c388b1d2cb10f6a5c853c3da9b9c46a02b7f78c882" default))
  '(package-selected-packages
-   '(nlinum doom-modeline org markdown-mode magit gruber-darker-theme smex merlin tuareg)))
-
-;;(add-to-list 'load-path "~/.emacs.d/idris2-mode/")
-;;(require 'idris2-mode)
+   '(flycheck-ocaml merlin-eldoc rg auto-complete dune dune-format helm-gtags ocamlformat utop company lsp-mode rustic nlinum doom-modeline org markdown-mode magit gruber-darker-theme smex merlin tuareg)))
 
 (set-face-attribute 'default nil :height 150 :family "Ubuntu Mono")
 
+;; highlight the line
+;; (global-hl-line-mode 0)
+
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-;; (setq-default frame-title-format '("%f")) 
+
+(global-set-key (kbd "C-c c l") 'flycheck-list-errors)
+
+(setq eldoc-echo-area-use-multiline-p t)
 
 ;; ocaml stuff
+(global-set-key (kbd "C-c m p") 'merlin-eldoc-jump-to-prev-occurrence)
+(global-set-key (kbd "C-c m n") 'merlin-eldoc-jump-to-next-occurrence)
+(setq merlin-eldoc-max-lines 10)
+;; don't dedicate a line to the documentation
+(setq merlin-eldoc-max-lines-doc 'fit)
 (setq merlin-use-auto-complete-mode t)
 (setq merlin-ac-setup t)
+(setq merlin-ac-setup 'easy)
+(with-eval-after-load 'merlin
+  ;; Disable Merlin's own error checking
+  (setq merlin-error-after-save nil)
+  ;; Enable Flycheck checker
+  (flycheck-ocaml-setup))
+(add-hook 'tuareg-mode-hook #'flycheck-mode)
 (add-hook 'tuareg-mode-hook #'merlin-mode)
+(require 'merlin-eldoc)
+(add-hook 'tuareg-mode-hook 'merlin-eldoc-setup)
+; Make company aware of merlin
+(with-eval-after-load 'company
+ (add-to-list 'company-backends 'merlin-company-backend))
+; Enable company on merlin managed buffers
+(add-hook 'merlin-mode-hook 'company-mode)
+
+;; rust stuff
+(lsp-rust-analyzer-inlay-hints-mode 1)
+(setq lsp-rust-analyzer-server-display-inlay-hints t)
+
+;; lsp-mode
+(setq lsp-headerline-breadcrumb-enable nil)
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
