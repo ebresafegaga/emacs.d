@@ -83,7 +83,7 @@
  '(custom-safe-themes
    '("7923541211298e4fd1db76c388b1d2cb10f6a5c853c3da9b9c46a02b7f78c882" default))
  '(package-selected-packages
-   '(flycheck-ocaml merlin-eldoc rg auto-complete dune dune-format helm-gtags ocamlformat utop company lsp-mode rustic nlinum doom-modeline org markdown-mode magit gruber-darker-theme smex merlin tuareg)))
+   '(multiple-cursors flycheck-ocaml merlin-eldoc rg auto-complete dune dune-format helm-gtags ocamlformat utop company lsp-mode rustic nlinum doom-modeline org markdown-mode magit gruber-darker-theme smex merlin tuareg)))
 
 (set-face-attribute 'default nil :height 150 :family "Ubuntu Mono")
 
@@ -93,6 +93,12 @@
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
 (global-set-key (kbd "C-c c l") 'flycheck-list-errors)
+
+(require 'multiple-cursors)
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
 (setq eldoc-echo-area-use-multiline-p t)
 
